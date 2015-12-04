@@ -28,14 +28,17 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/title_activity_launch"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,6 +49,7 @@
         <activity
             android:name=".activity.customer.NearCustomerActivity"
             android:label="@string/title_activity_near_customer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
@@ -55,10 +59,12 @@
         <activity
             android:name=".activity.system.SignInActivity"
             android:label="@string/title_activity_sign_in"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.customer.PoiKeywordSearchActivity"
             android:label="@string/title_activity_sign_in"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name="com.amap.api.location.APSService" />
@@ -66,31 +72,46 @@
         <activity
             android:name=".activity.customer.VisitRecordListActivity"
             android:label="@string/title_activity_visit_record"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.customer.VisitRecordActivity"
             android:label="@string/title_activity_visit_record"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.customer.AddVisitRecordActivity"
             android:label="@string/title_activity_add_visit_record"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.customer.MainActivity" />
-        <activity android:name=".activity.customer.ImageFile" />
-        <activity android:name=".activity.customer.GalleryActivity" />
-        <activity android:name=".activity.customer.AlbumActivity" />
-        <activity android:name=".activity.customer.ShowAllPhoto" />
+        <activity
+            android:name=".activity.customer.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.customer.ImageFile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.customer.GalleryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.customer.AlbumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.customer.ShowAllPhoto"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.customer.AddCustomerActivity"
             android:label="@string/title_activity_add_customer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.customer.CustomerListActivity"
             android:label="@string/title_activity_customer_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.system.UserCenterActivity"
             android:label="@string/title_activity_user_center"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

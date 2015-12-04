@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +30,9 @@ import com.houkew.bazzlebaby.activity.customer.VisitRecordActivity;
 import com.houkew.bazzlebaby.adapter.VisitRecordAdapter;
 import com.houkew.bazzlebaby.entity.AVOVisit;
 import com.houkew.bazzlebaby.models.CustomerModel;
+import com.houkew.bazzlebaby.utils.AppShow;
 import com.houkew.bazzlebaby.utils.CallBack;
+import com.houkew.bazzlebaby.utils.PublicWay;
 import com.houkew.bazzlebaby.utils.VolleyUtils;
 
 import java.util.List;
@@ -52,6 +55,7 @@ public class UserCenterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_center);
         ButterKnife.bind(this);
+        PublicWay.activityList.add(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,13 +76,13 @@ public class UserCenterActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //navigationView.getHea
-        NetworkImageView ni_user_log=(NetworkImageView)navigationView.getHeaderView(0).findViewById(R.id.ni_user_log);
-        TextView tv_user_name=(TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_user_name);
-        TextView tv_user_phone=(TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_user_phone);
-        AVUser avUser=AVUser.getCurrentUser();
-        AVFile avFile=avUser.getAVFile("userLogo");
-        if(avFile!=null)
-        ni_user_log.setImageUrl(avFile.getUrl(), VolleyUtils.getImageLoader(this));
+        NetworkImageView ni_user_log = (NetworkImageView) navigationView.getHeaderView(0).findViewById(R.id.ni_user_log);
+        TextView tv_user_name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_user_name);
+        TextView tv_user_phone = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_user_phone);
+        AVUser avUser = AVUser.getCurrentUser();
+        AVFile avFile = avUser.getAVFile("userLogo");
+        if (avFile != null)
+            ni_user_log.setImageUrl(avFile.getUrl(), VolleyUtils.getImageLoader(this));
         tv_user_name.setText(avUser.getUsername());
         tv_user_phone.setText(avUser.getMobilePhoneNumber());
     }
@@ -125,7 +129,7 @@ public class UserCenterActivity extends AppCompatActivity
             // Handle the camera action
             startActivity(new Intent(UserCenterActivity.this, AddCustomerActivity.class));
         } else if (id == R.id.nav_custonmer) {
-               startActivity(new Intent(UserCenterActivity.this, CustomerListActivity.class));
+            startActivity(new Intent(UserCenterActivity.this, CustomerListActivity.class));
         } else if (id == R.id.nav_user_out) {
             AVUser.logOut();
             finish();
@@ -159,7 +163,21 @@ public class UserCenterActivity extends AppCompatActivity
                 }
             }
         });
+    }
 
-
+    long lastOnkeyDown;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && (System.currentTimeMillis() - lastOnkeyDown) < 500) {
+            for (int i = 0; i < PublicWay.activityList.size(); i++) {
+                if (null != PublicWay.activityList.get(i)) {
+                    PublicWay.activityList.get(i).finish();
+                }
+            }
+            System.exit(0);
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            lastOnkeyDown=System.currentTimeMillis();
+            AppShow.showToast("再按一次退出");
+        }
+        return true;
     }
 }

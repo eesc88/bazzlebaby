@@ -187,7 +187,7 @@ public class AddVisitRecordActivity extends BaseActivity {
             public void callBack(int code, Object o) {
                 if (code == 1) {
                     List<AVOCustomer> list = (List<AVOCustomer>) o;
-                    avoCustomer=list.get(0);
+                    avoCustomer = list.get(0);
                     setCustomerName(list.get(0).getCusName());
                 }
             }
@@ -431,17 +431,4 @@ public class AddVisitRecordActivity extends BaseActivity {
                 break;
         }
     }
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            for (int i = 0; i < PublicWay.activityList.size(); i++) {
-                if (null != PublicWay.activityList.get(i)) {
-                    PublicWay.activityList.get(i).finish();
-                }
-            }
-            System.exit(0);
-        }
-        return true;
-    }
-
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.houkew.bazzlebaby.R;
 import com.houkew.bazzlebaby.activity.BaseActivity;
+import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.activity.system.UserCenterActivity;
 import com.houkew.bazzlebaby.adapter.VisitRecordAdapter;
 import com.houkew.bazzlebaby.entity.AVOVisit;
@@ -29,7 +30,7 @@ public class VisitRecordListActivity extends BaseActivity {
     @Bind(R.id.rl_title_right)
     RelativeLayout rlTitleRight;
     private VisitRecordAdapter visitRecordAdapter;
-
+    private WaitView waitView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +52,17 @@ public class VisitRecordListActivity extends BaseActivity {
                 startActivity(new Intent(VisitRecordListActivity.this, AddVisitRecordActivity.class));
             }
         });
+        waitView=new WaitView(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        waitView.show();
         CustomerModel.getVisitRecord(new CallBack() {
             @Override
             public void callBack(int code, Object o) {
+                waitView.dismiss();
                 if (code == 1) {
                     List<AVOVisit> list = (List<AVOVisit>) o;
                     visitRecordAdapter = new VisitRecordAdapter(list);

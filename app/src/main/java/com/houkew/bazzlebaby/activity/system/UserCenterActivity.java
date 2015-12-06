@@ -3,7 +3,6 @@ package com.houkew.bazzlebaby.activity.system;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -27,6 +25,7 @@ import com.houkew.bazzlebaby.activity.customer.AddCustomerActivity;
 import com.houkew.bazzlebaby.activity.customer.AddVisitRecordActivity;
 import com.houkew.bazzlebaby.activity.customer.CustomerListActivity;
 import com.houkew.bazzlebaby.activity.customer.VisitRecordActivity;
+import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.adapter.VisitRecordAdapter;
 import com.houkew.bazzlebaby.entity.AVOVisit;
 import com.houkew.bazzlebaby.models.CustomerModel;
@@ -48,7 +47,7 @@ public class UserCenterActivity extends AppCompatActivity
     RecyclerView rcCustomerVisit;
 
     private VisitRecordAdapter visitRecordAdapter;
-
+    private WaitView waitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +84,7 @@ public class UserCenterActivity extends AppCompatActivity
             ni_user_log.setImageUrl(avFile.getUrl(), VolleyUtils.getImageLoader(this));
         tv_user_name.setText(avUser.getUsername());
         tv_user_phone.setText(avUser.getMobilePhoneNumber());
+        waitView=new WaitView(this);
     }
 
     @Override
@@ -135,7 +135,6 @@ public class UserCenterActivity extends AppCompatActivity
             finish();
             System.exit(0);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -144,9 +143,11 @@ public class UserCenterActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        waitView.show();
         CustomerModel.getVisitRecord(new CallBack() {
             @Override
             public void callBack(int code, Object o) {
+                waitView.dismiss();
                 if (code == 1) {
                     List<AVOVisit> list = (List<AVOVisit>) o;
                     visitRecordAdapter = new VisitRecordAdapter(list);
@@ -166,6 +167,7 @@ public class UserCenterActivity extends AppCompatActivity
     }
 
     long lastOnkeyDown;
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && (System.currentTimeMillis() - lastOnkeyDown) < 500) {
             for (int i = 0; i < PublicWay.activityList.size(); i++) {
@@ -175,7 +177,7 @@ public class UserCenterActivity extends AppCompatActivity
             }
             System.exit(0);
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-            lastOnkeyDown=System.currentTimeMillis();
+            lastOnkeyDown = System.currentTimeMillis();
             AppShow.showToast("再按一次退出");
         }
         return true;

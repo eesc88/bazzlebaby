@@ -41,6 +41,7 @@ import com.avos.avoscloud.AVUser;
 import com.houkew.bazzlebaby.R;
 import com.houkew.bazzlebaby.activity.BaseActivity;
 import com.houkew.bazzlebaby.activity.customview.LinkMansView;
+import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOLinkMan;
 import com.houkew.bazzlebaby.entity.AVOVisit;
@@ -139,7 +140,8 @@ public class AddVisitRecordActivity extends BaseActivity {
         AVGeoPoint point = new AVGeoPoint(location.getLatitude(), location.getLongitude());
         avoVisit.setPosition(point);
         avoVisit.setTrueUserName(avUser.getString("TrueUserName"));
-
+        final WaitView waitView=new WaitView(this);
+        waitView.show();
         new AsyncTask<Void, Void, AVException>() {
             @Override
             protected AVException doInBackground(Void... params) {
@@ -165,6 +167,7 @@ public class AddVisitRecordActivity extends BaseActivity {
             @Override
             protected void onPostExecute(AVException e) {
                 super.onPostExecute(e);
+                waitView.dismiss();
                 if (e == null) {
                     AppShow.showToast("保存成功");
                     finish();

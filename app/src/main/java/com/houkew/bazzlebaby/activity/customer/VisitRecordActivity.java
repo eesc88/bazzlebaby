@@ -84,11 +84,9 @@ public class VisitRecordActivity extends BaseActivity {
             tvCustomerName.setText("名称：" + avoCustomer.getCusName());
             tvCustomerTel.setText("电话：" + avoCustomer.getTel());
             tvCustomerAddress.setText("地址：" + avoCustomer.getAddress());
-
             AVRelation<AVObject> relation = avoCustomer.getRelation("Pics");
             relation.getQuery().findInBackground(new FindCallback<AVObject>() {
                 public void done(List<AVObject> results, AVException e) {
-                    LogUtils.i("results:"+results.size());
                     if (e == null && !results.isEmpty()) {
                         visitPic.setImageUrl(results.get(0).getString("url"), VolleyUtils.getImageLoader(VisitRecordActivity.this));
                     } else if (e != null) {

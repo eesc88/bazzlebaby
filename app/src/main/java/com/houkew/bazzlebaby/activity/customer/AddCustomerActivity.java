@@ -43,6 +43,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.houkew.bazzlebaby.R;
 import com.houkew.bazzlebaby.activity.BaseActivity;
 import com.houkew.bazzlebaby.activity.customview.LinkMansView;
+import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOFile;
 import com.houkew.bazzlebaby.entity.AVOLinkMan;
@@ -140,7 +141,6 @@ public class AddCustomerActivity extends BaseActivity {
         });
     }
 
-
     /**
      * 提交数据
      */
@@ -163,6 +163,8 @@ public class AddCustomerActivity extends BaseActivity {
         avoCustomer.setPosition(point);
         avoCustomer.setTel(etCustomerTel.getText().toString().trim());
         avoCustomer.setUserID(AVUser.getCurrentUser());
+        final WaitView waitView=new WaitView(this);
+        waitView.show();
         new AsyncTask<Void, Void, AVException>() {
             @Override
             protected AVException doInBackground(Void... params) {
@@ -206,6 +208,7 @@ public class AddCustomerActivity extends BaseActivity {
             @Override
             protected void onPostExecute(AVException e) {
                 super.onPostExecute(e);
+                waitView.dismiss();
                 if (e == null) {
                     AppShow.showToast("保存成功");
                     finish();

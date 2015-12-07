@@ -49,11 +49,11 @@ public class CustomerModel {
 //        });
 
         AVQuery<AVOCustomer> query = AVQuery.getQuery(AVOCustomer.class);
+        query.whereEqualTo("UserID",AVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVOCustomer>() {
             @Override
             public void done(List<AVOCustomer> list, AVException e) {
                 if (e == null) {
-                    LogUtils.i("查询成功-->NearCustomer:"+list);
                     cb.callBack(1, list);
                 } else {
                     e.printStackTrace();
@@ -71,6 +71,7 @@ public class CustomerModel {
      */
     public static void getVisitRecord(final CallBack cb) {
         AVQuery<AVOVisit> query = AVQuery.getQuery(AVOVisit.class);
+        query.whereEqualTo("UserID",AVUser.getCurrentUser());
         query.include("CusID");
         query.include("UserID");
         query.findInBackground(new FindCallback<AVOVisit>() {
@@ -95,6 +96,7 @@ public class CustomerModel {
     public static void getVisitRecord(AVOCustomer avoCustomer,final CallBack cb) {
         AVQuery<AVOVisit> query = AVQuery.getQuery(AVOVisit.class);
         query.whereEqualTo("CusID",avoCustomer);
+        //query.whereEqualTo("UserID",AVUser.getCurrentUser());
         query.include("CusID");
         query.include("UserID");
         query.findInBackground(new FindCallback<AVOVisit>() {

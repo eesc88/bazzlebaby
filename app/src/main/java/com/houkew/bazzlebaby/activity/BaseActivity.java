@@ -1,10 +1,4 @@
-package com.houkew.bazzlebaby.activity; /**
- * User: SUGUOJUN(cceecc@sina.cn)
- * Version:1.0
- * Date: 2015-11-30
- * Time: 16:14
- * Description:
- */
+package com.houkew.bazzlebaby.activity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

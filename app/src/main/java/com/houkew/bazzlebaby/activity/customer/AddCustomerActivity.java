@@ -144,14 +144,18 @@ public class AddCustomerActivity extends BaseActivity {
     /**
      * 提交数据
      */
-    private void updata(){
-        String customerName=etCustomerName.getText().toString().trim();
-        if(TextUtils.isEmpty(customerName)){
+    private void updata() {
+        String customerName = etCustomerName.getText().toString().trim();
+        if (TextUtils.isEmpty(customerName)) {
             AppShow.showToast("客户名称不能为空");
             return;
         }
         final AVOCustomer avoCustomer = new AVOCustomer();
         AMapLocation location = MapLocationManager.getInstance().getLocation();
+        if (location == null) {
+            AppShow.showToast("未能获取到定位位置信息");
+            return;
+        }
         AVUser avUser = AVUser.getCurrentUser();
         avoCustomer.setAddress(location.getAddress());
         avoCustomer.setCreaTruerName(avUser.getString("TrueUserName"));
@@ -163,7 +167,7 @@ public class AddCustomerActivity extends BaseActivity {
         avoCustomer.setPosition(point);
         avoCustomer.setTel(etCustomerTel.getText().toString().trim());
         avoCustomer.setUserID(AVUser.getCurrentUser());
-        final WaitView waitView=new WaitView(this);
+        final WaitView waitView = new WaitView(this);
         waitView.show();
         new AsyncTask<Void, Void, AVException>() {
             @Override

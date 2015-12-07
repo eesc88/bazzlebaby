@@ -129,6 +129,7 @@ public class UserCenterActivity extends AppCompatActivity
             // Handle the camera action
             startActivity(new Intent(UserCenterActivity.this, AddCustomerActivity.class));
         } else if (id == R.id.nav_custonmer) {
+            CustomerListActivity.RUN_STATIC=1;
             startActivity(new Intent(UserCenterActivity.this, CustomerListActivity.class));
         } else if (id == R.id.nav_user_out) {
             AVUser.logOut();

@@ -112,6 +112,10 @@
             android:name=".activity.system.UserCenterActivity"
             android:label="@string/title_activity_user_center"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.customer.CustomerActivity"
+            android:label="@string/title_activity_customer"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

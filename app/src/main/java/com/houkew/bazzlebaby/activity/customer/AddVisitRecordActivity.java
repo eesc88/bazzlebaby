@@ -132,6 +132,10 @@ public class AddVisitRecordActivity extends BaseActivity {
         }
         final AVOVisit avoVisit = new AVOVisit();
         AMapLocation location = MapLocationManager.getInstance().getLocation();
+        if (location == null) {
+            AppShow.showToast("未能获取到定位位置信息");
+            return;
+        }
         AVUser avUser = AVUser.getCurrentUser();
         avoVisit.setUserID(avUser);
         avoVisit.setCusID(avoCustomer);
@@ -249,6 +253,7 @@ public class AddVisitRecordActivity extends BaseActivity {
         });
         photo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                CustomerListActivity.RUN_STATIC=0;
                 Intent intent = new Intent(AddVisitRecordActivity.this,
                         AlbumActivity.class);
                 startActivity(intent);

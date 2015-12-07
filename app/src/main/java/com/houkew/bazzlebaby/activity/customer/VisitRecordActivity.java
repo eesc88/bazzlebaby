@@ -13,6 +13,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.houkew.bazzlebaby.R;
 import com.houkew.bazzlebaby.activity.BaseActivity;
+import com.houkew.bazzlebaby.activity.customview.RoundNetworkImageView;
 import com.houkew.bazzlebaby.adapter.CustomerPicAdapter;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOVisit;
@@ -32,7 +33,7 @@ public class VisitRecordActivity extends BaseActivity {
     @Bind(R.id.visit_pic)
     NetworkImageView visitPic;
     @Bind(R.id.visit_user_pic)
-    NetworkImageView visitUserPic;
+    RoundNetworkImageView visitUserPic;
     @Bind(R.id.tv_customer_name)
     TextView tvCustomerName;
     @Bind(R.id.tv_customer_tel)

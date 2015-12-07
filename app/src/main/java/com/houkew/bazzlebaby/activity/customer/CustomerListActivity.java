@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 客户列表
+ * 附近客户列表
  */
 public class CustomerListActivity extends BaseActivity {
 
@@ -37,6 +37,11 @@ public class CustomerListActivity extends BaseActivity {
     TextView tvTitleRight;
     @Bind(R.id.rl_title_right)
     RelativeLayout rlTitleRight;
+
+    /**
+     * 运行模式   0 点击返回  1点击到下一个
+     */
+    public  static  int RUN_STATIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +80,14 @@ public class CustomerListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new CustomerListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, AVOCustomer data) {
-                AddVisitRecordActivity.avoCustomer = data;
-                finish();
+                if (RUN_STATIC == 0) {
+                    AddVisitRecordActivity.avoCustomer = data;
+                    finish();
+                }else{
+                    Intent intent=new Intent(CustomerListActivity.this,CustomerActivity.class);
+                    intent.putExtra("avoCustomer",data);
+                    startActivity(intent);
+                }
             }
         });
     }

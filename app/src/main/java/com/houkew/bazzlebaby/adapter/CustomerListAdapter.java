@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.houkew.bazzlebaby.R;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOVisit;
+import com.houkew.bazzlebaby.utils.Time;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
         public void bind(AVOCustomer avoVisit) {
             tvCustomerName.setText(avoVisit.getCusName());
-            tvCustomerAddress.setText(avoVisit.getCreatedAt().toString());
+            tvCustomerAddress.setText("创建时间:"+Time.dateToString(avoVisit.getCreatedAt()));
         }
     }
 }

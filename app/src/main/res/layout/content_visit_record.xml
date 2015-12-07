@@ -22,15 +22,14 @@
             android:id="@+id/visit_pic"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/launch"
+            android:background="@drawable/defult_no_image"
             android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/visit_user_pic"
+            <com.houkew.bazzlebaby.activity.customview.RoundNetworkImageView            android:id="@+id/visit_user_pic"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_centerHorizontal="true"

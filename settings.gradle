@@ -1,1 +1,1 @@
-include ':app', ':waitlibrary'
+include ':app'

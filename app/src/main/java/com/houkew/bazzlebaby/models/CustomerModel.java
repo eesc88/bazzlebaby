@@ -87,5 +87,29 @@ public class CustomerModel {
         });
     }
 
+    /**
+     * 获取用户拜访记录
+     *
+     * @param cb
+     */
+    public static void getVisitRecord(AVOCustomer avoCustomer,final CallBack cb) {
+        AVQuery<AVOVisit> query = AVQuery.getQuery(AVOVisit.class);
+        query.whereEqualTo("CusID",avoCustomer);
+        query.include("CusID");
+        query.include("UserID");
+        query.findInBackground(new FindCallback<AVOVisit>() {
+            @Override
+            public void done(List<AVOVisit> list, AVException e) {
+                if (e == null) {
+                    cb.callBack(1, list);
+                } else {
+                    e.printStackTrace();
+                    Leancloud.showError(e.getCode());
+                    cb.callBack(0, list);
+                }
+            }
+        });
+    }
+
 
 }

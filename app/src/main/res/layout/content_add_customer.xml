@@ -62,16 +62,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:textSize="15dp"
-            android:text="联系人电话:" />
+            android:text="联系人电话:"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/et_customer_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:maxLength="12"
-            android:text="17701552526" />
+            android:maxLength="12" />
     </LinearLayout>
 
     <Button

@@ -46,6 +46,7 @@ import com.houkew.bazzlebaby.activity.customview.LinkMansView;
 import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOFile;
+import com.houkew.bazzlebaby.entity.AVOGroup;
 import com.houkew.bazzlebaby.entity.AVOLinkMan;
 import com.houkew.bazzlebaby.utils.AppShow;
 import com.houkew.bazzlebaby.utils.Bimp;
@@ -167,6 +168,11 @@ public class AddCustomerActivity extends BaseActivity {
         avoCustomer.setPosition(point);
         avoCustomer.setTel(etCustomerTel.getText().toString().trim());
         avoCustomer.setUserID(AVUser.getCurrentUser());
+        try {
+            avoCustomer.setGroupID(avUser.getAVObject("GroupId", AVOGroup.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         final WaitView waitView = new WaitView(this);
         waitView.show();
         new AsyncTask<Void, Void, AVException>() {
@@ -287,7 +293,7 @@ public class AddCustomerActivity extends BaseActivity {
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                LogUtils.i("onItemClick" + arg2);
+                LogUtils.i("OnItemClickListener....");
                 if (arg2 == Bimp.tempSelectBitmap.size()) {
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(AddCustomerActivity.this, R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);

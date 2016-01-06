@@ -3,6 +3,7 @@ package com.houkew.bazzlebaby.entity;
 import android.os.Parcel;
 
 import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
@@ -83,6 +84,21 @@ public class AVOCustomer extends AVObject {
     public void setUserID(AVUser avUser) {
         put("UserID", avUser);
     }
+
+    public void setGroupID(AVOGroup avoGroup) {
+        put("groupID", avoGroup);
+    }
+
+    public AVOGroup getGroupID() {
+        try {
+            return getAVObject("groupID", AVOGroup.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public AVUser getUserID() {
         return getAVUser("UserID", AVUser.class);
     }

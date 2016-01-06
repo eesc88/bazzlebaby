@@ -3,12 +3,14 @@ package com.houkew.bazzlebaby.models;
 import com.amap.api.location.AMapLocation;
 import com.avos.avoscloud.AVCloud;
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.FunctionCallback;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
 import com.houkew.bazzlebaby.entity.AVOVisit;
+import com.houkew.bazzlebaby.utils.AppShow;
 import com.houkew.bazzlebaby.utils.CallBack;
 import com.houkew.bazzlebaby.utils.Leancloud;
 import com.houkew.bazzlebaby.utils.MapLocationManager;
@@ -26,8 +28,6 @@ import java.util.Objects;
  */
 
 public class CustomerModel {
-
-
     public static void getNearCustomer(final CallBack cb) {
 //        HashMap<String, String> params = new HashMap<>();
 //        AMapLocation location = MapLocationManager.getInstance().getLocation();
@@ -49,16 +49,28 @@ public class CustomerModel {
 //        });
 
         AVQuery<AVOCustomer> query = AVQuery.getQuery(AVOCustomer.class);
-        query.whereEqualTo("UserID",AVUser.getCurrentUser());
+        AMapLocation location = MapLocationManager.getInstance().getLocation();
+        if (location == null) {
+            AppShow.showToast("正在获取位置信息");
+            cb.callBack(0, null);
+            return;
+        }
+        AVGeoPoint avGeoPoint = new AVGeoPoint(location.getLatitude(), location.getLongitude());
+        query.whereNear("LatLng", avGeoPoint);
+        query.whereEqualTo("UserID", AVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVOCustomer>() {
             @Override
             public void done(List<AVOCustomer> list, AVException e) {
-                if (e == null) {
+                if (e == null && list != null && !list.isEmpty()) {
                     cb.callBack(1, list);
                 } else {
-                    e.printStackTrace();
-                    Leancloud.showError(e.getCode());
                     cb.callBack(0, list);
+                    if (e != null) {
+                        e.printStackTrace();
+                        Leancloud.showError(e.getCode());
+                    } else {
+                        AppShow.showToast("数据为空");
+                    }
                 }
             }
         });
@@ -71,18 +83,32 @@ public class CustomerModel {
      */
     public static void getVisitRecord(final CallBack cb) {
         AVQuery<AVOVisit> query = AVQuery.getQuery(AVOVisit.class);
-        query.whereEqualTo("UserID",AVUser.getCurrentUser());
+
+        AMapLocation location = MapLocationManager.getInstance().getLocation();
+        if (location == null) {
+            AppShow.showToast("正在获取位置信息");
+            cb.callBack(0, null);
+            return;
+        }
+
+        AVGeoPoint avGeoPoint = new AVGeoPoint(location.getLatitude(), location.getLongitude());
+        query.whereNear("LatLng", avGeoPoint);
+        query.whereEqualTo("UserID", AVUser.getCurrentUser());
         query.include("CusID");
         query.include("UserID");
         query.findInBackground(new FindCallback<AVOVisit>() {
             @Override
             public void done(List<AVOVisit> list, AVException e) {
-                if (e == null) {
+                if (e == null && list != null && !list.isEmpty()) {
                     cb.callBack(1, list);
                 } else {
-                    e.printStackTrace();
-                    Leancloud.showError(e.getCode());
                     cb.callBack(0, list);
+                    if (e != null) {
+                        e.printStackTrace();
+                        Leancloud.showError(e.getCode());
+                    } else {
+                        AppShow.showToast("数据为空");
+                    }
                 }
             }
         });
@@ -93,21 +119,25 @@ public class CustomerModel {
      *
      * @param cb
      */
-    public static void getVisitRecord(AVOCustomer avoCustomer,final CallBack cb) {
+    public static void getVisitRecord(AVOCustomer avoCustomer, final CallBack cb) {
         AVQuery<AVOVisit> query = AVQuery.getQuery(AVOVisit.class);
-        query.whereEqualTo("CusID",avoCustomer);
+        query.whereEqualTo("CusID", avoCustomer);
         //query.whereEqualTo("UserID",AVUser.getCurrentUser());
         query.include("CusID");
         query.include("UserID");
         query.findInBackground(new FindCallback<AVOVisit>() {
             @Override
             public void done(List<AVOVisit> list, AVException e) {
-                if (e == null) {
+                if (e == null && list != null && !list.isEmpty()) {
                     cb.callBack(1, list);
                 } else {
-                    e.printStackTrace();
-                    Leancloud.showError(e.getCode());
                     cb.callBack(0, list);
+                    if (e != null) {
+                        e.printStackTrace();
+                        Leancloud.showError(e.getCode());
+                    } else {
+                        AppShow.showToast("数据为空");
+                    }
                 }
             }
         });

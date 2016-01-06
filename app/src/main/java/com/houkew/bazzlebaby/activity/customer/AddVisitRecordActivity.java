@@ -43,6 +43,7 @@ import com.houkew.bazzlebaby.activity.BaseActivity;
 import com.houkew.bazzlebaby.activity.customview.LinkMansView;
 import com.houkew.bazzlebaby.activity.customview.WaitView;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
+import com.houkew.bazzlebaby.entity.AVOGroup;
 import com.houkew.bazzlebaby.entity.AVOLinkMan;
 import com.houkew.bazzlebaby.entity.AVOVisit;
 import com.houkew.bazzlebaby.models.CustomerModel;
@@ -112,7 +113,7 @@ public class AddVisitRecordActivity extends BaseActivity {
     }
 
     private void initTitle() {
-        titleInit("新增客户");
+        titleInit("新增访问记录");
         rlTitleRight.setVisibility(View.VISIBLE);
         ivTitleRight.setVisibility(View.GONE);
         tvTitleRight.setVisibility(View.VISIBLE);
@@ -144,7 +145,12 @@ public class AddVisitRecordActivity extends BaseActivity {
         AVGeoPoint point = new AVGeoPoint(location.getLatitude(), location.getLongitude());
         avoVisit.setPosition(point);
         avoVisit.setTrueUserName(avUser.getString("TrueUserName"));
-        final WaitView waitView=new WaitView(this);
+        try {
+            avoVisit.setGroupID(avUser.getAVObject("GroupId", AVOGroup.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final WaitView waitView = new WaitView(this);
         waitView.show();
         new AsyncTask<Void, Void, AVException>() {
             @Override
@@ -184,6 +190,7 @@ public class AddVisitRecordActivity extends BaseActivity {
 
     @OnClick(R.id.rl_change_customer)
     public void changeCustomer() {
+        CustomerListActivity.RUN_STATIC = 0;
         startActivity(new Intent(AddVisitRecordActivity.this, CustomerListActivity.class));
     }
 
@@ -192,10 +199,12 @@ public class AddVisitRecordActivity extends BaseActivity {
         CustomerModel.getNearCustomer(new CallBack() {
             @Override
             public void callBack(int code, Object o) {
-                if (code == 1) {
+                if (code == 1 && o != null) {
                     List<AVOCustomer> list = (List<AVOCustomer>) o;
-                    avoCustomer = list.get(0);
-                    setCustomerName(list.get(0).getCusName());
+                    if (!list.isEmpty()) {
+                        avoCustomer = list.get(0);
+                        setCustomerName(list.get(0).getCusName());
+                    }
                 }
             }
         });
@@ -210,6 +219,8 @@ public class AddVisitRecordActivity extends BaseActivity {
         super.onStart();
         if (avoCustomer != null) {
             setCustomerName(avoCustomer.getCusName());
+        }else{
+            LogUtils.w("avoCustomer  is null..");
         }
     }
 
@@ -253,7 +264,7 @@ public class AddVisitRecordActivity extends BaseActivity {
         });
         photo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CustomerListActivity.RUN_STATIC=0;
+                CustomerListActivity.RUN_STATIC = 0;
                 Intent intent = new Intent(AddVisitRecordActivity.this,
                         AlbumActivity.class);
                 startActivity(intent);
@@ -278,8 +289,8 @@ public class AddVisitRecordActivity extends BaseActivity {
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
+                LogUtils.i("OnItemClickListener....");
                 if (arg2 == Bimp.tempSelectBitmap.size()) {
-                    Log.i("ddddddd", "----------");
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(AddVisitRecordActivity.this, R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 } else {
@@ -384,7 +395,8 @@ public class AddVisitRecordActivity extends BaseActivity {
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                        LogUtils.i("======================");
+                        if (Bimp.max >= Bimp.tempSelectBitmap.size()) {
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);

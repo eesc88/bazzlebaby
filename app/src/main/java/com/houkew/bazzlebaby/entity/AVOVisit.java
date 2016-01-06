@@ -96,6 +96,19 @@ public class AVOVisit extends AVObject {
         put("CusID", avoCustomer);
     }
 
+    public void setGroupID(AVOGroup avoGroup) {
+        put("groupID", avoGroup);
+    }
+
+    public AVOGroup getGroupID() {
+        try {
+            return getAVObject("groupID", AVOGroup.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public AVOCustomer getCusID() {
         try {
             return getAVObject("CusID", AVOCustomer.class);

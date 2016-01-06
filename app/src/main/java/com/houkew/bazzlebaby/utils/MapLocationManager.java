@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.houkew.bazzlebaby.application.App;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -93,6 +94,7 @@ public class MapLocationManager implements AMapLocationListener {
         if (amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
+                SPUtils.putStringValue(App.context, "LATLNG", amapLocation.getLatitude() + "," + amapLocation.getLongitude()+ "," +amapLocation.getAddress());
                 location = amapLocation;
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
@@ -103,6 +105,18 @@ public class MapLocationManager implements AMapLocationListener {
 
 
     public AMapLocation getLocation() {
+        if (location == null) {
+            String latLng = SPUtils.getStringValue(App.context, "LATLNG",null);
+            if (latLng!=null&&!latLng.isEmpty()) {
+                String[] latLngs = latLng.split(",");
+                Double la = Double.parseDouble(latLngs[0]);
+                Double lo = Double.parseDouble(latLngs[1]);
+                location = new AMapLocation("LATLNG");
+                location.setLatitude(la);
+                location.setLongitude(lo);
+                location.setAddress(latLngs[2]);
+            }
+        }
         return location;
     }
 

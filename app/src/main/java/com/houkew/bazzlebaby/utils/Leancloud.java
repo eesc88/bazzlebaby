@@ -6,6 +6,7 @@ import com.avos.avoscloud.AVCloud;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.houkew.bazzlebaby.entity.AVOCustomer;
+import com.houkew.bazzlebaby.entity.AVOGroup;
 import com.houkew.bazzlebaby.entity.AVOLinkMan;
 import com.houkew.bazzlebaby.entity.AVOVisit;
 
@@ -22,6 +23,7 @@ public class Leancloud {
         AVObject.registerSubclass(AVOCustomer.class);
         AVObject.registerSubclass(AVOVisit.class);
         AVObject.registerSubclass(AVOLinkMan.class);
+        AVObject.registerSubclass(AVOGroup.class);
 
         AVOSCloud.initialize(context, "adVm2UtCx0gYmtQ8vt1kRThC", "pj7ONObW4AJ3UlGLqa23feG5");
 
